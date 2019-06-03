@@ -7,8 +7,11 @@ export default class Questions extends Component {
     this.db = firebase.firestore();
     this.watch();
   }
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
   watch = () => {
-    this.db.collection("questions")
+    this.unsubscribe = this.db.collection("questions")
     .onSnapshot((snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
